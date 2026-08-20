@@ -64,6 +64,25 @@ Pages, in nav order: Home, Projects, Experience, About, Contact. Writing
   is a card only, added once it actually exists. UK Crime Heatmap was
   dropped and was never built. Don't include it anywhere.
 
+## Design direction
+
+Recruiters are the primary audience, but that's not a reason to play it
+safe. Some creativity and personality in the design is good, and this is
+also a chance to learn animation properly. Default to simple and subtle
+rather than flashy or overly "designy," but it's fine to try a new
+pattern and pull it back later if it doesn't earn its place. Prefer
+Framer Motion for anything beyond a CSS transition.
+
+## Learning mode
+
+This project is also how I'm relearning JavaScript and learning
+TypeScript and Next.js (App Router), not just Claude Code. When you
+introduce a JS/TS pattern or Next.js/App Router convention that isn't
+obvious (array methods, closures, async/await, generics, Server vs
+Client Components, `params` as a promise, etc.), add a short
+explanation of what it does and why. Keep it brief, a momentary
+reminder, not an essay.
+
 ## Working style
 
 - Small changes. Show me the diff. Don't rewrite whole files.
