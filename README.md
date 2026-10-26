@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+Personal portfolio site for Mohit Vasnani. Next.js 16 (App Router),
+TypeScript, Tailwind CSS v4, deployed on Vercel.
 
-First, run the development server:
+## Running it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run lint     # ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What it is |
+|---|---|
+| `app/` | Routes. One folder per page, App Router. |
+| `app/projects/[slug]/` | Case-study pages, generated from `lib/projects.ts`. |
+| `app/globals.css` | Design tokens, theme, keyframes, utilities. The only CSS file. |
+| `components/` | Shared UI and the animation primitives. |
+| `lib/projects.ts` | Every project. Add one here and it appears everywhere. |
+| `lib/site.ts` | Bio, experience, education, certifications, skills, tools, socials. |
+| `AGENTS.md` | Conventions and content plan. Read before changing anything. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Editing content
 
-## Learn More
+Nothing on the site hardcodes copy. To change what the site says, edit
+`lib/site.ts` or `lib/projects.ts`.
 
-To learn more about Next.js, take a look at the following resources:
+A project with `tier: "case-study"` and a `caseStudy` object gets its own
+page at `/projects/<slug>` automatically. A project with `tier: "card"` is
+listed on the index only.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Before deploying
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [x] CV PDF is at `public/Mohit-Vasnani-CV.pdf` (`site.cv` in `lib/site.ts`).
+- [x] `site.url` resolves itself from Vercel's `VERCEL_PROJECT_PRODUCTION_URL`,
+      which Vercel injects automatically. Nothing to configure. Override with
+      `NEXT_PUBLIC_SITE_URL` if it ever needs forcing.
+- [ ] Add the CineBook repo link once the repo is public.
+- [ ] 15 Nov 2026: turn TrainRadar into a case study (see `lib/projects.ts`).
+- [ ] Add an Open Graph image at `app/opengraph-image.png` (1200x630).
 
-## Deploy on Vercel
+## Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Dark mode is a `.dark` class on `<html>`, set before first paint by an
+  inline script in `app/layout.tsx` and toggled by `components/ThemeToggle`.
+- Every animation honours `prefers-reduced-motion`.
+- TrainRadar is under a supervisor embargo until 15 November 2026. It is a
+  card with no technical detail, no screenshots and no repo link until then.
