@@ -26,13 +26,22 @@ export default function Home() {
 
         <div className="shell pt-20 pb-16 sm:pt-28 sm:pb-24">
           <Reveal distance={10}>
-            <p className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted uppercase">
-              <span className="relative grid size-1.5 place-items-center">
-                <span className="absolute size-full animate-ping rounded-full bg-accent/70" />
-                <span className="size-full rounded-full bg-accent" />
-              </span>
-              Open to Sept 2026 graduate roles
-            </p>
+            {/* Name first, status second. The h1 below is the positioning
+                line, so without this the site never says whose it is above
+                the fold. The pill border is what keeps the two apart
+                visually, since both are mono uppercase. */}
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+              <p className="font-mono text-sm font-medium tracking-[0.2em] uppercase">
+                {site.name}
+              </p>
+              <p className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted uppercase">
+                <span className="relative grid size-1.5 place-items-center">
+                  <span className="absolute size-full animate-ping rounded-full bg-accent/70" />
+                  <span className="size-full rounded-full bg-accent" />
+                </span>
+                Open to Sept 2026 graduate roles
+              </p>
+            </div>
           </Reveal>
 
           <AnimatedHeading

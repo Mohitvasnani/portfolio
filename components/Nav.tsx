@@ -31,9 +31,9 @@ export default function Nav() {
       <div className="shell flex h-(--nav-h) items-center justify-between gap-6">
         <Link
           href="/"
-          className="group font-mono text-sm font-medium tracking-tight"
+          className="group font-mono text-sm font-medium tracking-tight whitespace-nowrap"
         >
-          mohit
+          Mohit Vasnani
           {/* The dot is the one bit of brand. It warms up on hover. */}
           <span className="text-accent transition-opacity group-hover:opacity-60">.</span>
         </Link>
