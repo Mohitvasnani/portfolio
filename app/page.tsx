@@ -26,35 +26,41 @@ export default function Home() {
 
         <div className="shell pt-20 pb-16 sm:pt-28 sm:pb-24">
           <Reveal distance={10}>
-            {/* Name first, status second. The h1 below is the positioning
-                line, so without this the site never says whose it is above
-                the fold. The pill border is what keeps the two apart
-                visually, since both are mono uppercase. */}
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-              <p className="font-mono text-sm font-medium tracking-[0.2em] uppercase">
-                {site.name}
-              </p>
-              <p className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted uppercase">
-                <span className="relative grid size-1.5 place-items-center">
-                  <span className="absolute size-full animate-ping rounded-full bg-accent/70" />
-                  <span className="size-full rounded-full bg-accent" />
-                </span>
-                Open to Sept 2026 graduate roles
-              </p>
-            </div>
+            <p className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted uppercase">
+              <span className="relative grid size-1.5 place-items-center">
+                <span className="absolute size-full animate-ping rounded-full bg-accent/70" />
+                <span className="size-full rounded-full bg-accent" />
+              </span>
+              Open to Sept 2026 graduate roles
+            </p>
           </Reveal>
 
+          {/* The name is the h1. Nobody should have to hunt for whose site
+              this is, and "Mohit Vasnani" is also the thing people type into
+              a search box. The claim below it carries the positioning, which
+              is why it stays large rather than becoming body copy. */}
           <AnimatedHeading
-            text="I build backends that stay correct when two people want the same thing."
-            serifWords={["correct"]}
-            className="display mt-8 max-w-4xl text-4xl sm:text-6xl lg:text-7xl"
+            text={site.name}
+            className="display mt-7 text-6xl sm:text-7xl lg:text-8xl"
           />
 
-          <Reveal delay={0.35} className="mt-8 max-w-xl">
-            <p className="text-lg leading-relaxed text-muted">{site.positioning}</p>
+          <Reveal delay={0.3} className="mt-7 max-w-3xl">
+            {/* Deliberately not the `.display` class. Its 0.95 line-height
+                suits the name above but crushes a wrapping paragraph, and it
+                beats a `leading-*` utility on source order, so the type is
+                set directly here instead. */}
+            <p className="text-2xl leading-[1.18] font-medium tracking-[-0.02em] text-balance sm:text-3xl lg:text-4xl">
+              I build backends that stay{" "}
+              <span className="serif text-accent">correct</span> when two
+              people want the same thing.
+            </p>
           </Reveal>
 
-          <Reveal delay={0.45} className="mt-10 flex flex-wrap items-center gap-3">
+          <Reveal delay={0.4} className="mt-7 max-w-xl">
+            <p className="leading-relaxed text-muted">{site.positioning}</p>
+          </Reveal>
+
+          <Reveal delay={0.5} className="mt-10 flex flex-wrap items-center gap-3">
             <Magnetic>
               <Link
                 href="/projects"
