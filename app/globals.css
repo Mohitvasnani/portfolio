@@ -45,19 +45,6 @@
   --font-display: var(--font-instrument-serif);
 
   --radius-card: var(--radius);
-
-  --animate-marquee: marquee 38s linear infinite;
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    /* -50% because the track renders its children twice, so half a loop
-       lands exactly back on the start and the seam is invisible. */
-    transform: translateX(-50%);
-  }
 }
 
 @layer base {
@@ -161,23 +148,6 @@
     background-size: 4rem 4rem;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
-  }
-
-  .fade-x {
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 8%,
-      #000 92%,
-      transparent
-    );
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 8%,
-      #000 92%,
-      transparent
-    );
   }
 
   .link-underline {
