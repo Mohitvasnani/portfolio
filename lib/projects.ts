@@ -158,12 +158,11 @@ export const projects: Project[] = [
     featured: true,
     order: 3,
     year: "2026",
-    // TODO: fill these in when the repo is public and the app is deployed,
-    // then delete the `note` below.
-    // links: {
-    //   demo: "https://trainradar.example.com",
-    //   repo: "https://github.com/mohitvasnani/trainradar",
-    // },
+  
+    links: {
+    demo: "https://trainradar-uk.vercel.app/",
+    repo: "https://github.com/mohitvasnani/trainradar",
+    },
     note: "Repo and live demo going up shortly.",
     caseStudy: {
       premise:
