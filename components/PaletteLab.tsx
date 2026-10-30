@@ -13,89 +13,71 @@ import { useEffect, useState } from "react";
 type Palette = {
   id: string;
   label: string;
-  /** Whether the .dark class goes on, so Tailwind's dark: utilities match. */
-  dark: boolean;
   tokens: Record<string, string>;
 };
 
-// The three are your own specs used literally: background, text, bar, with
-// nothing derived and nothing borrowed between sets. Text and bar are the
-// same value in each, so every palette is two colours across seven tokens.
-// Paper and Ink are the site as it was, kept for comparison.
+// The three choices. Each is paper, ink and one cool third colour: all three
+// papers and inks are warm, so a warm accent would read as a shade of the ink
+// at badge size. Sindoor's paper is dark, so its accent has to be light.
 const PALETTES: Palette[] = [
   {
     id: "henna",
     label: "Henna",
-    dark: false,
     tokens: {
       "--background": "#E9DCC8",
       "--surface": "#E9DCC8",
       "--foreground": "#7A3B1D",
       "--muted": "#7A3B1D",
       "--border": "#7A3B1D",
-      "--accent": "#7A3B1D",
+      "--accent": "#1F3A5F",
       "--accent-contrast": "#E9DCC8",
     },
   },
   {
     id: "turmeric",
     label: "Turmeric",
-    dark: false,
     tokens: {
       "--background": "#F0B429",
       "--surface": "#F0B429",
       "--foreground": "#2A1A12",
       "--muted": "#2A1A12",
       "--border": "#2A1A12",
-      "--accent": "#2A1A12",
+      "--accent": "#1F3A5F",
       "--accent-contrast": "#F0B429",
     },
   },
   {
     id: "sindoor",
     label: "Sindoor",
-    dark: false,
     tokens: {
       "--background": "#9E1B1B",
       "--surface": "#9E1B1B",
       "--foreground": "#F6E9D8",
       "--muted": "#F6E9D8",
       "--border": "#F6E9D8",
-      "--accent": "#F6E9D8",
+      "--accent": "#A8D5CE",
       "--accent-contrast": "#9E1B1B",
-    },
-  },
-  {
-    id: "paper",
-    label: "Paper",
-    dark: false,
-    tokens: {
-      "--background": "#faf9f7",
-      "--surface": "#ffffff",
-      "--foreground": "#141414",
-      "--muted": "#6b6761",
-      "--border": "#e3e0da",
-      "--accent": "#d9541f",
-      "--accent-contrast": "#ffffff",
-    },
-  },
-  {
-    id: "ink",
-    label: "Ink",
-    dark: true,
-    tokens: {
-      "--background": "#0c0c0d",
-      "--surface": "#151517",
-      "--foreground": "#ebe9e6",
-      "--muted": "#8d8984",
-      "--border": "#26262a",
-      "--accent": "#ff6b35",
-      "--accent-contrast": "#15100d",
     },
   },
 ];
 
+// Not one of the three. Kept so the old site is one click away for comparison.
+const ORIGINAL: Palette = {
+  id: "paper",
+  label: "Original",
+  tokens: {
+    "--background": "#faf9f7",
+    "--surface": "#ffffff",
+    "--foreground": "#141414",
+    "--muted": "#6b6761",
+    "--border": "#e3e0da",
+    "--accent": "#d9541f",
+    "--accent-contrast": "#ffffff",
+  },
+};
+
 const TOKEN_NAMES = Object.keys(PALETTES[0].tokens);
+const ALL = [...PALETTES, ORIGINAL];
 const STORAGE_KEY = "palette-lab";
 
 function apply(p: Palette) {
@@ -103,14 +85,11 @@ function apply(p: Palette) {
   for (const [name, value] of Object.entries(p.tokens)) {
     el.style.setProperty(name, value);
   }
-  el.classList.toggle("dark", p.dark);
-  el.style.colorScheme = p.dark ? "dark" : "light";
 }
 
 function clear() {
   const el = document.documentElement;
   for (const name of TOKEN_NAMES) el.style.removeProperty(name);
-  el.style.removeProperty("color-scheme");
 }
 
 export default function PaletteLab() {
@@ -122,7 +101,7 @@ export default function PaletteLab() {
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem(STORAGE_KEY);
-      const found = PALETTES.find((p) => p.id === saved);
+      const found = ALL.find((p) => p.id === saved);
       if (found) {
         apply(found);
         // Reading initial state back out of an external system is the case
@@ -152,14 +131,6 @@ export default function PaletteLab() {
     try {
       sessionStorage.removeItem(STORAGE_KEY);
     } catch {}
-    // Hand the theme back to whatever the toggle last saved.
-    try {
-      const saved = localStorage.getItem("theme");
-      const dark = saved
-        ? saved === "dark"
-        : window.matchMedia("(prefers-color-scheme: dark)").matches;
-      document.documentElement.classList.toggle("dark", dark);
-    } catch {}
   }
 
   return (
@@ -180,39 +151,65 @@ export default function PaletteLab() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-1.5">
+          <div className="flex flex-col gap-1.5">
             {PALETTES.map((p) => (
               <button
                 key={p.id}
                 type="button"
                 onClick={() => choose(p)}
                 aria-pressed={active === p.id}
-                className={`flex items-center gap-1.5 rounded-md border px-2 py-1.5 text-left transition-colors ${
+                className={`flex items-center gap-2 rounded-md border px-2 py-2 text-left transition-colors ${
                   active === p.id
                     ? "border-accent text-foreground"
-                    : "border-border text-muted hover:text-foreground"
+                    : "border-border/50 text-muted hover:text-foreground"
                 }`}
               >
-                <span
-                  aria-hidden
-                  className="size-2.5 shrink-0 rounded-full border"
-                  style={{
-                    background: p.tokens["--background"],
-                    borderColor: p.tokens["--accent"],
-                  }}
-                />
+                {/* paper, ink, accent: the whole palette in three dots */}
+                <span aria-hidden className="flex shrink-0 gap-1">
+                  {(["--background", "--foreground", "--accent"] as const).map((k) => (
+                    <span
+                      key={k}
+                      className="size-3 rounded-full ring-1 ring-black/15"
+                      style={{ background: p.tokens[k] }}
+                    />
+                  ))}
+                </span>
                 <span className="truncate">{p.label}</span>
               </button>
             ))}
           </div>
 
-          <button
-            type="button"
-            onClick={reset}
-            className="mt-2 w-full rounded-md border border-border px-2 py-1.5 text-muted transition-colors hover:text-foreground"
-          >
-            Reset to CSS
-          </button>
+          <div className="mt-2.5 flex flex-col gap-1.5 border-t border-border/50 pt-2.5">
+            <button
+              type="button"
+              onClick={() => choose(ORIGINAL)}
+              aria-pressed={active === ORIGINAL.id}
+              className={`flex items-center gap-2 rounded-md border px-2 py-2 text-left transition-colors ${
+                active === ORIGINAL.id
+                  ? "border-accent text-foreground"
+                  : "border-border/50 text-muted hover:text-foreground"
+              }`}
+            >
+              <span aria-hidden className="flex shrink-0 gap-1">
+                {(["--background", "--foreground", "--accent"] as const).map((k) => (
+                  <span
+                    key={k}
+                    className="size-3 rounded-full ring-1 ring-black/15"
+                    style={{ background: ORIGINAL.tokens[k] }}
+                  />
+                ))}
+              </span>
+              <span className="truncate">{ORIGINAL.label}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={reset}
+              className="rounded-md border border-border/50 px-2 py-1.5 text-muted transition-colors hover:text-foreground"
+            >
+              Reset to CSS
+            </button>
+          </div>
         </div>
       ) : (
         <button

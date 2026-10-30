@@ -7,7 +7,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import ThemeToggle from "@/components/ThemeToggle";
 
 // The site is one page, so these are section ids rather than routes. On a
 // case study page the same links become "/#projects" and navigate home first.
@@ -103,7 +102,6 @@ export default function Nav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}

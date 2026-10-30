@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-/* Tailwind v4 has no `darkMode: "class"` config file. `@custom-variant`
-   redefines the `dark:` prefix to key off a `.dark` class on <html>
-   instead of the OS setting, which is what lets the theme toggle work. */
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* Layout tokens. Palette-independent, so swapping a palette below can
    never take the radius and nav height with it. */
 :root {
@@ -16,49 +11,47 @@
    PALETTE. Exactly one uncommented at a time. To try another, comment
    out the active block and uncomment the one you want.
 
-   Each of these three is your own spec, used literally: background,
-   text, bar, and nothing derived or borrowed from another set. Since
-   text and bar are the same value in all three, each palette is two
-   colours mapped onto seven tokens:
+   Three colours per set, across seven tokens:
 
-     --background, --surface      the background
-     --foreground, --muted        the text
-     --border, --accent           the bar
-     --accent-contrast            the background
+     --background, --surface   the paper
+     --foreground, --muted     the ink
+     --border                  the ink at full strength, so card edges
+                               and grid lines read as printed rules
+                               rather than hairlines
+     --accent                  the third colour
+     --accent-contrast         whatever is legible on the accent
 
-   That means --accent equals --foreground, so the accent stops being a
-   separate signal: italic words, company names and hover states all
-   land on the text colour. And --border runs at full text strength, so
-   every card edge and grid line becomes a hard rule rather than a
-   hairline. Both are consequences of a two-colour set, not mistakes.
+   All three papers and all three inks are warm, so the third colour is
+   always cool. That is the rule, not a coincidence. A warm accent next
+   to a warm ink reads as a slightly different shade of the ink at 11px,
+   which is the size the status badges and eyebrow links actually run
+   at, and at that size hue separation is what carries, not contrast
+   ratio.
 
-   None of the three has a dark variant, so .dark repeats :root and the
-   nav toggle is a no-op while one of them is active.
+   Henna and Turmeric both take indigo. Sindoor cannot: its paper is
+   dark, so its accent has to be light, and a light cool colour is pale
+   teal. Gold was the obvious choice there and it fails, because gold
+   beside a cream ink reads as slightly yellower cream.
+
+   Ratios are measured against that set's own background.
+
+   There is no dark mode. The site is one palette.
    ==================================================================== */
 
-/* -------- HENNA (active) -------- bg #E9DCC8, text/bar #7A3B1D
-   Text on background: 6.30 */
+/* -------- HENNA (active) --------
+   paper #E9DCC8 / ink #7A3B1D (6.30) / indigo #1F3A5F (8.50) */
 :root {
   --background: #E9DCC8;
   --surface: #E9DCC8;
   --foreground: #7A3B1D;
   --muted: #7A3B1D;
   --border: #7A3B1D;
-  --accent: #7A3B1D;
-  --accent-contrast: #E9DCC8;
-}
-.dark {
-  --background: #E9DCC8;
-  --surface: #E9DCC8;
-  --foreground: #7A3B1D;
-  --muted: #7A3B1D;
-  --border: #7A3B1D;
-  --accent: #7A3B1D;
+  --accent: #1F3A5F;         /* indigo, 8.50 */
   --accent-contrast: #E9DCC8;
 }
 
-/* -------- TURMERIC -------- bg #F0B429, text/bar #2A1A12
-   Text on background: 8.98 */
+/* -------- TURMERIC --------
+   paper #F0B429 / ink #2A1A12 (8.98) / indigo #1F3A5F (6.16) */
 /*
 :root {
   --background: #F0B429;
@@ -66,22 +59,13 @@
   --foreground: #2A1A12;
   --muted: #2A1A12;
   --border: #2A1A12;
-  --accent: #2A1A12;
-  --accent-contrast: #F0B429;
-}
-.dark {
-  --background: #F0B429;
-  --surface: #F0B429;
-  --foreground: #2A1A12;
-  --muted: #2A1A12;
-  --border: #2A1A12;
-  --accent: #2A1A12;
+  --accent: #1F3A5F;         /* indigo, 6.16 */
   --accent-contrast: #F0B429;
 }
 */
 
-/* -------- SINDOOR -------- bg #9E1B1B, text/bar #F6E9D8
-   Text on background: 6.69 */
+/* -------- SINDOOR --------
+   paper #9E1B1B / ink #F6E9D8 (6.69) / pale teal #A8D5CE (4.98) */
 /*
 :root {
   --background: #9E1B1B;
@@ -89,23 +73,13 @@
   --foreground: #F6E9D8;
   --muted: #F6E9D8;
   --border: #F6E9D8;
-  --accent: #F6E9D8;
-  --accent-contrast: #9E1B1B;
-}
-.dark {
-  --background: #9E1B1B;
-  --surface: #9E1B1B;
-  --foreground: #F6E9D8;
-  --muted: #F6E9D8;
-  --border: #F6E9D8;
-  --accent: #F6E9D8;
+  --accent: #A8D5CE;         /* pale teal, 4.98 */
   --accent-contrast: #9E1B1B;
 }
 */
 
-/* -------- PAPER AND INK (the original) ------------------------------
-   The site as it was, kept so you can flip straight back and compare.
-   The only one of the four with a working light/dark pair. */
+/* -------- PAPER AND INK (the original) --------
+   Kept so you can flip straight back and compare. */
 /*
 :root {
   --background: #faf9f7;
@@ -115,15 +89,6 @@
   --border: #e3e0da;
   --accent: #d9541f;
   --accent-contrast: #ffffff;
-}
-.dark {
-  --background: #0c0c0d;
-  --surface: #151517;
-  --foreground: #ebe9e6;
-  --muted: #8d8984;
-  --border: #26262a;
-  --accent: #ff6b35;
-  --accent-contrast: #15100d;
 }
 */
 
@@ -153,10 +118,6 @@
     scroll-padding-top: calc(var(--nav-h) + 1.5rem);
     background: var(--background);
     color-scheme: light;
-  }
-
-  html.dark {
-    color-scheme: dark;
   }
 
   body {

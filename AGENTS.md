@@ -36,10 +36,10 @@ No test suite yet.
 - No component libraries. Build the components.
 - CSS custom properties (`--background`, `--foreground`, `--accent` and the
   rest) live in `:root` and map into Tailwind via `@theme inline`.
-- Dark mode is a `.dark` class on `<html>`, not a media query, because the
-  site has a manual theme toggle. `@custom-variant dark` in globals.css
-  repoints Tailwind's `dark:` prefix at that class. An inline script in
-  layout.tsx sets it before first paint so there is no flash.
+- There is no dark mode. It was removed on purpose: the palette is three
+  flat colours and a saturated paper has no dark counterpart. There is no
+  `.dark` class, no `@custom-variant dark`, no theme toggle and no
+  pre-paint script. Do not add a `dark:` utility anywhere.
 - Fonts load through `next/font/google` as CSS variables on `<html>`.
 - Project content lives in `lib/projects.ts` as one typed array. Everything
   else about me (bio, experience, education, certifications, skills, tools,
@@ -56,7 +56,7 @@ No test suite yet.
 ## Site content plan
 
 One page. `app/page.tsx` is the site: hero, then sections with ids for
-Projects (`#projects`), Stack (`#stack`), Daily tools, Experience
+Projects (`#projects`), Stack (`#stack`), Experience
 (`#experience`), About (`#about`) and Contact (`#contact`). The nav links to
 those anchors and a scroll spy in `components/Nav.tsx` moves the pill. There
 are no `/projects`, `/experience`, `/about` or `/contact` routes any more.
@@ -140,12 +140,26 @@ pattern and pull it back later if it doesn't earn its place. Prefer the
 `motion` package (what Framer Motion is now published as) for anything
 beyond a CSS transition.
 
-As built: paper/ink neutrals with a single warm accent, Geist Sans and Mono
-with Instrument Serif italic. The italic is rationed: twice on the home
-page, not once per heading. Movement is scroll reveals, a hero word stagger,
-a magnetic pull on buttons, a cursor spotlight on cards and a scroll
-progress hairline. Nothing loops or demands attention while you are reading.
-The scrolling technology ribbon was removed on purpose. Do not bring it back.
+As built: three flat colours, set in `app/globals.css` and nowhere else.
+Paper and ink from one of the natural-dye palettes, plus a third colour that
+is a different hue from the ink rather than a different value of it, which
+is what keeps it readable at 11px. `--border` runs at full ink strength, so
+card edges and grid lines are printed rules, not hairlines, and `--surface`
+equals `--background`, so cards are outline-only. All three are deliberate.
+Nothing on the site may introduce a fourth colour: status, state and
+emphasis are carried by fill, weight and rules instead. Type is Geist Sans
+and Mono with Instrument Serif italic, and the italic is rationed to twice
+on the home page, not once per heading.
+
+Movement is scroll reveals, a hero word stagger, a magnetic pull on buttons,
+a cursor spotlight on cards, a scroll progress hairline, and the mandala.
+`components/Mandala.tsx` renders once, large, bleeding off the right of the
+hero, rotating with scroll position. It expands to roughly 490 elements, so
+it stays a single instance and is not repeated down the page. Nothing loops
+or demands attention while you are reading. The scrolling technology ribbon
+and the Daily tools grid were both removed on purpose. Do not bring either
+back. The `tools` array is still in `lib/site.ts` in case that section
+returns.
 
 ## Learning mode
 

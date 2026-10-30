@@ -2,10 +2,14 @@ import Link from "next/link";
 import Spotlight from "@/components/Spotlight";
 import type { Project } from "@/lib/projects";
 
+// Three colours means status cannot be carried by hue. "live" is filled
+// and the rest are outlines, so the one you can click right now is the one
+// that reads first. Emerald used to live here, which was a fourth colour
+// nothing else on the site used.
 const statusStyles: Record<Project["status"], string> = {
-  live: "border-emerald-600/30 text-emerald-700 dark:border-emerald-400/30 dark:text-emerald-400",
+  live: "border-accent bg-accent text-accent-contrast",
   "in progress": "border-accent/40 text-accent",
-  archived: "border-border text-muted",
+  archived: "border-border/40 text-muted",
   // Not greyed out. A release date reads as a commitment; "private" or
   // "embargoed" read as something being withheld.
   "public 15 Nov": "border-accent/40 text-accent",

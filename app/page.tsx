@@ -3,6 +3,7 @@ import AnimatedHeading from "@/components/AnimatedHeading";
 import Avatar from "@/components/Avatar";
 import CopyEmail from "@/components/CopyEmail";
 import Magnetic from "@/components/Magnetic";
+import Mandala from "@/components/Mandala";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
@@ -15,7 +16,6 @@ import {
   site,
   skills,
   socials,
-  tools,
 } from "@/lib/site";
 
 // The whole site is this page. Projects, experience, about and contact are
@@ -32,7 +32,19 @@ export default function Home() {
       {/* Hero                                                             */}
       {/* ---------------------------------------------------------------- */}
       <section className="relative overflow-hidden">
-        <div aria-hidden className="grid-veil absolute inset-0 -z-10 opacity-60" />
+        {/* Bleeds off the right edge, so what you see is a half mandala. The
+            hero's `overflow-hidden` does the cropping. Hidden on small
+            screens, where there is no spare width for it to sit in. */}
+        {/* Exactly half. The wrapper is 52rem wide and sits at right-0 with a
+            -26rem right margin, so its centre lands precisely on the section's
+            right edge and `overflow-hidden` above crops the other half away.
+            Margins rather than -translate-x-1/2, because the drift writes an
+            inline transform to the wrapper and the two would collide. */}
+        <Mandala
+          speed={0.08}
+          drift={0.3}
+          className="pointer-events-none absolute top-1/2 right-0 -z-10 -mt-[26rem] -mr-[26rem] hidden aspect-square w-[52rem] text-accent opacity-[0.12] sm:block"
+        />
 
         <div className="shell pt-20 pb-16 sm:pt-28 sm:pb-24">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
@@ -166,32 +178,6 @@ export default function Home() {
             </Reveal>
           ))}
         </div>
-      </section>
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Tools                                                            */}
-      {/* ---------------------------------------------------------------- */}
-      <section className="shell mt-24">
-        <Reveal>
-          <SectionHeading eyebrow="Daily tools" />
-        </Reveal>
-        <ul className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-border bg-border sm:grid-cols-4">
-          {tools.map((tool, i) => (
-            <Reveal as="li" key={tool.name} delay={i * 0.04} className="bg-background">
-              <a
-                href={tool.href}
-                target="_blank"
-                rel="noreferrer"
-                className="group block h-full p-5 transition-colors hover:bg-surface"
-              >
-                <p className="text-sm font-medium transition-colors group-hover:text-accent">
-                  {tool.name}
-                </p>
-                <p className="mt-1.5 font-mono text-[11px] text-muted">{tool.use}</p>
-              </a>
-            </Reveal>
-          ))}
-        </ul>
       </section>
 
       {/* ---------------------------------------------------------------- */}

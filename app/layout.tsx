@@ -47,30 +47,12 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-// Runs before the browser paints anything, which is the only way to apply a
-// saved theme without a flash of the wrong one. It has to be a raw string
-// because React components render too late to help here.
-const themeScript = `
-(function(){
-  try {
-    var saved = localStorage.getItem('theme');
-    var dark = saved ? saved === 'dark'
-      : window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.classList.toggle('dark', dark);
-  } catch (e) {}
-})();
-`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
       <body className="flex min-h-full flex-col font-sans">
         <ScrollProgress />
         {/* Keyboard users land on this first and can jump past the nav. */}
