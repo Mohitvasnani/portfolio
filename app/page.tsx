@@ -41,7 +41,7 @@ export default function Home() {
           Hidden below sm, where there is no spare width for it. */}
       <Mandala
         speed={0.08}
-        className="pointer-events-none fixed top-1/2 right-0 z-0 -mt-[26rem] -mr-[26rem] hidden aspect-square w-[52rem] text-accent opacity-[0.10] sm:block"
+        className="pointer-events-none fixed top-1/2 right-0 z-0 -mt-[26rem] -mr-[26rem] hidden aspect-square w-[52rem] text-foreground opacity-[0.16] sm:block"
       />
 
       <div className="relative z-10">

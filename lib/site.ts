@@ -40,7 +40,7 @@ export const site = {
   cv: "/Mohit-Vasnani-CV.pdf",
   // Path to the portrait in public/, or null for the monogram fallback.
   // Set this the moment the file is in place; nothing else needs changing.
-  photo: null as string | null,
+  photo: "/dp.jpg" as string | null,
   url: resolveSiteUrl(),
 } as const;
 

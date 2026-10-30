@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { site } from "@/lib/site";
 
 // The site is one page, so these are section ids rather than routes. On a
 // case study page the same links become "/#projects" and navigate home first.
@@ -63,13 +64,39 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-xl">
       <div className="shell flex h-(--nav-h) items-center justify-between gap-6">
+        {/* The wordmark is drawn as a CSS mask rather than inline SVG: the
+            shape comes from public/wordmark.svg and the colour from
+            `bg-current`, so it follows --foreground and recolours with the
+            palette. Inline SVG would also recolour, but this file is 7.5 KB
+            of path data and Nav is a Client Component, so inlining it would
+            put all of that in the JS bundle instead of a cached asset. */}
         <Link
           href="/"
-          className="group font-mono text-sm font-medium tracking-tight whitespace-nowrap"
+          aria-label={`${site.name}, home`}
+          className="group flex items-end gap-1 whitespace-nowrap"
         >
-          Mohit Vasnani
+          <span
+            aria-hidden
+            className="block h-[17px] bg-current"
+            style={{
+              aspectRatio: "815.28 / 119.04",
+              maskImage: "url(/wordmark.svg)",
+              WebkitMaskImage: "url(/wordmark.svg)",
+              maskSize: "contain",
+              WebkitMaskSize: "contain",
+              maskRepeat: "no-repeat",
+              WebkitMaskRepeat: "no-repeat",
+              maskPosition: "center",
+              WebkitMaskPosition: "center",
+            }}
+          />
           {/* The dot is the one bit of brand. It warms up on hover. */}
-          <span className="text-accent transition-opacity group-hover:opacity-60">.</span>
+          <span
+            aria-hidden
+            className="mb-px text-sm leading-none font-medium text-accent transition-opacity group-hover:opacity-60"
+          >
+            .
+          </span>
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
