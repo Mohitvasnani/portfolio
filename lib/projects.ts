@@ -88,8 +88,8 @@ export const projects: Project[] = [
         {
           heading: "Why this problem",
           body: [
-            "Seat booking is the cleanest real-world concurrency problem I could find. The domain is simple enough to explain in a sentence, and the failure mode is unambiguous: if two bookings land on one seat, the system is wrong, and no amount of nice UI hides it.",
-            "That was the point. I wanted a project where the difficulty was correctness under contention rather than the length of the feature list, and where I would be able to prove it worked instead of asserting it.",
+            "Seat booking was the cleanest concurrency problem I could find. The domain fits in one sentence, and the failure is impossible to argue with: two bookings on one seat means the system is wrong.",
+            "I picked it because I wanted the difficulty to sit in correctness under contention. A long feature list proves nothing I care about. A test that fires two bookings at one seat and watches one of them lose does.",
           ],
         },
         {
@@ -97,7 +97,7 @@ export const projects: Project[] = [
           body: [
             "A Spring Boot API over PostgreSQL, with the schema owned by Flyway migrations rather than by Hibernate's auto-DDL. Every change to the database is a numbered file in the repo, which means the schema has a history I can read.",
             "A seat moves through three states: AVAILABLE, HELD and BOOKED. A hold carries a time-to-live, so a checkout someone abandons does not strand a seat forever. Expired holds return to AVAILABLE on their own.",
-            "The endpoints are deliberately boring: list showtimes, list the seats for a showtime, hold a seat, book a held seat. The interesting part is not the surface area.",
+            "The endpoints are deliberately boring: list showtimes, list the seats for a showtime, hold a seat, book a held seat.",
           ],
         },
         {
@@ -105,16 +105,16 @@ export const projects: Project[] = [
           body: [
             "Two requests arriving in the same millisecond for the same seat. The naive version reads the seat, sees AVAILABLE, and writes BOOKED. Both requests do that, and both succeed.",
             "I went with optimistic locking: each seat row carries a version, and an update only lands if the version is the one the request read. The second writer finds the version has moved, the write is rejected, and the API returns a conflict rather than a silent double booking.",
-            "I chose optimistic over pessimistic locking because most seats in a showtime are never contended, so paying for a lock on every booking would be paying for the rare case on the common path. Locking the hot showtimes specifically is a later step, not a starting position.",
-            "The proof is a test, not a claim: two concurrent bookings fire at one seat and the test asserts that exactly one wins. Testcontainers runs it against a real PostgreSQL instance, because this particular bug only exists where the real database's isolation behaviour does.",
+            "I chose optimistic over pessimistic locking because most seats in a showtime are never contended, so a lock on every booking would mean paying for the rare case on the common path. Locking hot showtimes specifically can come later.",
+            "The test fires two concurrent bookings at one seat and asserts that exactly one wins. It runs against a real PostgreSQL instance through Testcontainers, because an in-memory database has different isolation behaviour and this is a bug that lives in that difference.",
           ],
         },
         {
           heading: "Where it stands, and what is next",
           body: [
             "In build. The concurrency core is the milestone that matters and everything else on the list exists to support it: Dockerfile, CI running the tests on every push, and OpenAPI docs.",
-            "Deliberately not in this version: authentication, Redis-backed holds and a payments flow. Each one is real work that belongs after the core is proven, and bolting them on early would have blurred the one story this project is meant to tell.",
-            "The honest next step is scale: holds in PostgreSQL work for a single instance, and moving them to Redis is what it would take to run more than one.",
+            "Not in this version: authentication, Redis-backed holds, payments. Each is real work, and each would have pulled attention off the thing I was trying to get right.",
+            "The next step is scale. Holds in PostgreSQL work for a single instance, and moving them to Redis is what it would take to run more than one.",
           ],
         },
       ],
@@ -125,7 +125,7 @@ export const projects: Project[] = [
     name: "Device Depot",
     tagline: "MERN e-commerce application",
     summary:
-      "A full e-commerce app built solo and shipped: product catalogue, cart, checkout and an admin side for stock. Built to get an entire stack working end to end rather than to be clever in any one part of it.",
+      "Built solo and deployed: product catalogue, cart, checkout, and an admin side for stock. The goal was getting a whole stack working end to end, which it does.",
     stack: ["React", "Node.js", "Express", "MongoDB"],
     tier: "card",
     status: "live",
@@ -142,7 +142,7 @@ export const projects: Project[] = [
     name: "TrainRadar",
     tagline: "MSc dissertation project",
     summary:
-      "My MSc dissertation, submitted September 2026 and supervised at the University of Liverpool. Finished and marked \u2014 the write-up is just under an academic embargo until mid-November.",
+      "My MSc dissertation, submitted September 2026 at the University of Liverpool. Finished and marked. The write-up is under an academic embargo until mid-November.",
     stack: [],
     // On 15 Nov 2026: change `tier` to "case-study", add the stack back, add
     // the repo link, and add a `caseStudy` block. The page generates itself.

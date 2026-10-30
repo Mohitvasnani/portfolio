@@ -40,12 +40,11 @@ export default function AboutPage() {
             spatial data rather than tutorials.
           </p>
           <p>
-            That second half is not a sideline, but it is also not my whole
-            pitch. I am a backend engineer who can handle spatial data, which
-            is a more useful thing to be than either one on its own. On the
-            front end I am comfortable enough with TypeScript and React to
-            build the thing I need rather than wait for someone to build it
-            for me.
+            I think of myself as a backend engineer who can handle spatial
+            data, in that order. The geospatial side is real work and I am
+            not going to undersell it, but it is not what this site is
+            about. On the front end I know enough TypeScript and React to
+            build what I need myself.
           </p>
           <p>
             I grew up between Jaipur, Yaound&eacute; and Liverpool, which is
