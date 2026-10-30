@@ -27,25 +27,28 @@ import {
 // anchor lands below it rather than underneath it.
 export default function Home() {
   return (
-    <main>
+    <main className="relative">
+      {/* Fixed to the viewport rather than sitting inside the hero, so it
+          stays on the right the whole way down and keeps turning as you
+          scroll. Exactly half: the wrapper is 52rem wide at right-0 with a
+          -26rem right margin, so its centre lands on the viewport's right
+          edge and the other half is off-screen.
+
+          z-0, not -z-10. A negative z-index would put it behind the body's
+          own background and it would never be visible. The page content is
+          lifted to z-10 instead.
+
+          Hidden below sm, where there is no spare width for it. */}
+      <Mandala
+        speed={0.08}
+        className="pointer-events-none fixed top-1/2 right-0 z-0 -mt-[26rem] -mr-[26rem] hidden aspect-square w-[52rem] text-accent opacity-[0.10] sm:block"
+      />
+
+      <div className="relative z-10">
       {/* ---------------------------------------------------------------- */}
       {/* Hero                                                             */}
       {/* ---------------------------------------------------------------- */}
       <section className="relative overflow-hidden">
-        {/* Bleeds off the right edge, so what you see is a half mandala. The
-            hero's `overflow-hidden` does the cropping. Hidden on small
-            screens, where there is no spare width for it to sit in. */}
-        {/* Exactly half. The wrapper is 52rem wide and sits at right-0 with a
-            -26rem right margin, so its centre lands precisely on the section's
-            right edge and `overflow-hidden` above crops the other half away.
-            Margins rather than -translate-x-1/2, because the drift writes an
-            inline transform to the wrapper and the two would collide. */}
-        <Mandala
-          speed={0.08}
-          drift={0.3}
-          className="pointer-events-none absolute top-1/2 right-0 -z-10 -mt-[26rem] -mr-[26rem] hidden aspect-square w-[52rem] text-accent opacity-[0.12] sm:block"
-        />
-
         <div className="shell pt-20 pb-16 sm:pt-28 sm:pb-24">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
             <div>
@@ -431,6 +434,7 @@ export default function Home() {
           </div>
         </Reveal>
       </section>
+      </div>
     </main>
   );
 }

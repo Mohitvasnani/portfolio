@@ -16,9 +16,10 @@ type Palette = {
   tokens: Record<string, string>;
 };
 
-// The three choices. Each is paper, ink and one cool third colour: all three
-// papers and inks are warm, so a warm accent would read as a shade of the ink
-// at badge size. Sindoor's paper is dark, so its accent has to be light.
+// The three choices: paper, ink and the dye-pairing accent. Henna-leaf green
+// passes at 4.52. Kumkum red (3.99) and marigold (4.00) are below the 4.5 bar
+// for the 11px badges and eyebrow links, and for the filled badge's own label.
+// See the notes in globals.css for passing values in the same hues.
 const PALETTES: Palette[] = [
   {
     id: "henna",
@@ -29,7 +30,7 @@ const PALETTES: Palette[] = [
       "--foreground": "#7A3B1D",
       "--muted": "#7A3B1D",
       "--border": "#7A3B1D",
-      "--accent": "#1F3A5F",
+      "--accent": "#4A6B2F",
       "--accent-contrast": "#E9DCC8",
     },
   },
@@ -42,7 +43,7 @@ const PALETTES: Palette[] = [
       "--foreground": "#2A1A12",
       "--muted": "#2A1A12",
       "--border": "#2A1A12",
-      "--accent": "#1F3A5F",
+      "--accent": "#A61E1E",
       "--accent-contrast": "#F0B429",
     },
   },
@@ -55,7 +56,7 @@ const PALETTES: Palette[] = [
       "--foreground": "#F6E9D8",
       "--muted": "#F6E9D8",
       "--border": "#F6E9D8",
-      "--accent": "#A8D5CE",
+      "--accent": "#F2A93B",
       "--accent-contrast": "#9E1B1B",
     },
   },

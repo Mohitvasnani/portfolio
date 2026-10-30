@@ -17,41 +17,40 @@
      --foreground, --muted     the ink
      --border                  the ink at full strength, so card edges
                                and grid lines read as printed rules
-                               rather than hairlines
      --accent                  the third colour
-     --accent-contrast         whatever is legible on the accent
+     --accent-contrast         what sits legibly on the accent
 
-   All three papers and all three inks are warm, so the third colour is
-   always cool. That is the rule, not a coincidence. A warm accent next
-   to a warm ink reads as a slightly different shade of the ink at 11px,
-   which is the size the status badges and eyebrow links actually run
-   at, and at that size hue separation is what carries, not contrast
-   ratio.
+   WARNING: do not put an inline comment inside one of the commented-out
+   blocks below. CSS comments do not nest, the inner close ends the outer
+   one, and the build dies with "Unexpected }". Notes go in these headers
+   instead. This has broken the build once already.
 
-   Henna and Turmeric both take indigo. Sindoor cannot: its paper is
-   dark, so its accent has to be light, and a light cool colour is pale
-   teal. Gold was the obvious choice there and it fails, because gold
-   beside a cream ink reads as slightly yellower cream.
-
-   Ratios are measured against that set's own background.
-
-   There is no dark mode. The site is one palette.
+   Accents are the dye pairings, not the cool-contrast picks. Two of the
+   three fall short of 4.5:1, which is the bar for the 11px uppercase
+   badges and eyebrow links the accent actually runs at. Passing values
+   that keep the same hue are listed per block. There is no dark mode.
    ==================================================================== */
 
 /* -------- HENNA (active) --------
-   paper #E9DCC8 / ink #7A3B1D (6.30) / indigo #1F3A5F (8.50) */
+   paper #E9DCC8 / ink #7A3B1D (6.30) / henna-leaf green #4A6B2F (4.52).
+   Passes. Deepen to #44632B for 5.07 if you want more margin.
+   Alternate accent: indigo #2B3A67 (8.16). */
 :root {
   --background: #E9DCC8;
   --surface: #E9DCC8;
   --foreground: #7A3B1D;
   --muted: #7A3B1D;
   --border: #7A3B1D;
-  --accent: #1F3A5F;         /* indigo, 8.50 */
+  --accent: #4A6B2F;
   --accent-contrast: #E9DCC8;
 }
 
 /* -------- TURMERIC --------
-   paper #F0B429 / ink #2A1A12 (8.98) / indigo #1F3A5F (6.16) */
+   paper #F0B429 / ink #2A1A12 (8.98) / kumkum red #A61E1E (3.99).
+   BELOW 4.5. Affects the small badges and the filled badge's label,
+   which is paper on accent at the same 3.99. Darkening to #8E1414
+   gives 4.98 and still reads as kumkum.
+   Alternate accent: deep indigo #1B2A5C (7.35). */
 /*
 :root {
   --background: #F0B429;
@@ -59,13 +58,16 @@
   --foreground: #2A1A12;
   --muted: #2A1A12;
   --border: #2A1A12;
-  --accent: #1F3A5F;         /* indigo, 6.16 */
+  --accent: #A61E1E;
   --accent-contrast: #F0B429;
 }
 */
 
 /* -------- SINDOOR --------
-   paper #9E1B1B / ink #F6E9D8 (6.69) / pale teal #A8D5CE (4.98) */
+   paper #9E1B1B / ink #F6E9D8 (6.69) / marigold #F2A93B (4.00).
+   BELOW 4.5, same two places as Turmeric. Brightening to #F6BE5E
+   gives 4.74 and still reads as marigold.
+   Alternate accent: old gold #E8C35A (4.72), which passes as given. */
 /*
 :root {
   --background: #9E1B1B;
@@ -73,7 +75,7 @@
   --foreground: #F6E9D8;
   --muted: #F6E9D8;
   --border: #F6E9D8;
-  --accent: #A8D5CE;         /* pale teal, 4.98 */
+  --accent: #F2A93B;
   --accent-contrast: #9E1B1B;
 }
 */

@@ -153,9 +153,11 @@ on the home page, not once per heading.
 
 Movement is scroll reveals, a hero word stagger, a magnetic pull on buttons,
 a cursor spotlight on cards, a scroll progress hairline, and the mandala.
-`components/Mandala.tsx` renders once, large, bleeding off the right of the
-hero, rotating with scroll position. It expands to roughly 490 elements, so
-it stays a single instance and is not repeated down the page. Nothing loops
+`components/Mandala.tsx` renders once, fixed to the right of the viewport,
+cropped to exactly half, rotating with scroll position for the whole length
+of the page. It sits at z-0 with the page content lifted to z-10, because a
+negative z-index would hide it behind the body background. It expands to
+roughly 490 elements, so it stays a single instance and is never repeated. Nothing loops
 or demands attention while you are reading. The scrolling technology ribbon
 and the Daily tools grid were both removed on purpose. Do not bring either
 back. The `tools` array is still in `lib/site.ts` in case that section
