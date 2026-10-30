@@ -71,9 +71,9 @@ export default function Home() {
                   the whole site read as written to a formula. */}
               <Reveal delay={0.3} className="mt-7 max-w-3xl">
                 <p className="text-2xl leading-[1.18] font-medium tracking-[-0.02em] text-balance sm:text-3xl lg:text-4xl">
-                  I build backends that stay{" "}
-                  <span className="serif text-accent">correct</span> when two
-                  people want the same thing.
+                  Two people tap the same seat at the same moment.{" "}
+                  <span className="serif text-accent">Exactly one</span> of them
+                  should get it.
                 </p>
               </Reveal>
 

@@ -36,7 +36,7 @@ export default function Avatar({ className }: { className?: string }) {
             a constant pixel width, but it also makes the dash pattern ignore
             `pathLength`, and the arc below then never closes. The widths here
             are viewBox units instead, chosen to read well at all three sizes. */}
-        <circle cx="50" cy="50" r="48.5" fill="none" stroke="var(--border)" strokeWidth="0.6" />
+        <circle cx="50" cy="50" r="48.5" fill="none" stroke="var(--border)" strokeWidth="1" />
 
         {/* The accent arc that closes. `pathLength={1}` rescales the path to
             one unit long, so dasharray and dashoffset can be written as
@@ -47,7 +47,7 @@ export default function Avatar({ className }: { className?: string }) {
           r="48.5"
           fill="none"
           stroke="var(--accent)"
-          strokeWidth="1.1"
+          strokeWidth="2"
           strokeLinecap="round"
           pathLength={1}
           strokeDasharray={1}

@@ -25,12 +25,23 @@ type MandalaProps = {
    * transform string, and the Tailwind positioning classes would fight it.
    */
   drift?: number;
+  /**
+   * Stroke width, in viewBox units. The viewBox is 1024 wide and the thing
+   * renders at 52rem, so the on-screen width is roughly weight * 0.81px.
+   * At the old default of 1.5 that was a 1.2px hairline, which antialiasing
+   * smears into almost nothing. Raise this before raising opacity: a thicker
+   * line reads without darkening the page behind the text as much.
+   *
+   * The r=228 dashed ring sets its own width and ignores this.
+   */
+  weight?: number;
 };
 
 export default function Mandala({
   className = "",
   speed = 0.15,
   drift = 0,
+  weight = 3,
 }: MandalaProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -73,7 +84,7 @@ export default function Mandala({
         viewBox="-512 -512 1024 1024"
         fill="none"
         stroke="currentColor"
-        strokeWidth={1.5}
+        strokeWidth={weight}
         strokeLinecap="round"
         strokeLinejoin="round"
         className="h-full w-full will-change-transform"
