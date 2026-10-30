@@ -41,7 +41,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
     <main className="shell py-20 sm:py-28">
       <Reveal distance={10}>
         <Link
-          href="/projects"
+          href="/#projects"
           className="group inline-flex items-center gap-2 font-mono text-xs tracking-[0.12em] text-muted uppercase transition-colors hover:text-foreground"
         >
           <span className="inline-block transition-transform group-hover:-translate-x-1" aria-hidden>
@@ -128,7 +128,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
       <Reveal>
         <div className="mt-24 border-t border-border pt-10">
-          <Link href="/projects" className="group font-mono text-xs tracking-[0.12em] text-accent uppercase">
+          <Link href="/#projects" className="group font-mono text-xs tracking-[0.12em] text-accent uppercase">
             Back to all projects
             <span className="ml-1.5 inline-block transition-transform group-hover:translate-x-1" aria-hidden>
               &rarr;

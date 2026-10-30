@@ -1,30 +1,65 @@
-// A Client Component. `usePathname` is a React hook, and hooks only run in
-// the browser, so this file needs the directive. Everything else on the site
-// stays a Server Component.
+// A Client Component. `usePathname` and the scroll spy are both browser-only,
+// so this file needs the directive. Everything it links to stays a Server
+// Component.
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/experience", label: "Experience" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+// The site is one page, so these are section ids rather than routes. On a
+// case study page the same links become "/#projects" and navigate home first.
+const LINKS = [
+  { id: "projects", label: "Projects" },
+  { id: "experience", label: "Experience" },
+  { id: "about", label: "About" },
+  { id: "contact", label: "Contact" },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const [open, setOpen] = useState(false);
+  const [spyId, setSpyId] = useState<string | null>(null);
 
-  // The mobile menu is closed by the links themselves rather than by watching
-  // the route. Closing it in an effect after the path changes means React
-  // renders the new page with the menu still open and then re-renders to close
-  // it, which is both a wasted render and a visible flash.
+  // Derived, not stored. Resetting this in the effect when the route changes
+  // would be a second render for something the render can already work out.
+  const activeId = isHome ? spyId : null;
+
+  // Scroll spy. An IntersectionObserver is cheaper than listening to scroll:
+  // the browser tells us when a section enters or leaves instead of us asking
+  // on every frame.
+  useEffect(() => {
+    if (!isHome) return;
+
+    const sections = LINKS.map((l) => document.getElementById(l.id)).filter(
+      (el): el is HTMLElement => el !== null,
+    );
+    if (sections.length === 0) return;
+
+    // Shrinking the root to a thin band across the middle of the viewport
+    // means "active" is whatever you are actually looking at, not whatever
+    // has one pixel on screen.
+    const visible = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        const first = LINKS.find((l) => visible.has(l.id));
+        setSpyId(first ? first.id : null);
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [isHome]);
+
+  const href = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-xl">
@@ -39,16 +74,14 @@ export default function Nav() {
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
-          {links.map((link) => {
-            // "/" would match every path with startsWith, so it's compared exactly.
-            const isActive =
-              link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+          {LINKS.map((link) => {
+            const isActive = isHome && activeId === link.id;
 
             return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={isActive ? "page" : undefined}
+              <a
+                key={link.id}
+                href={href(link.id)}
+                aria-current={isActive ? "true" : undefined}
                 className={`relative rounded-full px-3.5 py-2 text-sm transition-colors ${
                   isActive ? "text-foreground" : "text-muted hover:text-foreground"
                 }`}
@@ -64,7 +97,7 @@ export default function Nav() {
                   />
                 )}
                 {link.label}
-              </Link>
+              </a>
             );
           })}
         </nav>
@@ -100,15 +133,15 @@ export default function Nav() {
             className="overflow-hidden border-t border-border md:hidden"
           >
             <ul className="shell flex flex-col py-2">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
+              {LINKS.map((link) => (
+                <li key={link.id}>
+                  <a
+                    href={href(link.id)}
                     onClick={() => setOpen(false)}
                     className="block py-3 text-base text-muted transition-colors hover:text-foreground"
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>

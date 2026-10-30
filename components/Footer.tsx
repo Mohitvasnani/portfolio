@@ -15,7 +15,7 @@ export default function Footer() {
             {site.availability}. Based in {site.location}.
           </p>
           <Link
-            href="/contact"
+            href="/#contact"
             className="mt-4 inline-block font-mono text-xs tracking-[0.12em] text-accent uppercase"
           >
             Get in touch &rarr;

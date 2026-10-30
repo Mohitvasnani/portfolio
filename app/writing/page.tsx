@@ -23,7 +23,7 @@ export default function WritingPage() {
           the project write-ups are the long-form version.
         </p>
         <Link
-          href="/projects"
+          href="/#projects"
           className="mt-10 inline-flex items-center gap-2 font-mono text-xs tracking-[0.12em] text-accent uppercase"
         >
           Read the case studies &rarr;

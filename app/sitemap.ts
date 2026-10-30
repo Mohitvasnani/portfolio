@@ -4,7 +4,9 @@ import { site } from "@/lib/site";
 
 // Next turns this into /sitemap.xml at build time.
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/projects", "/experience", "/about", "/contact"];
+  // The site is a single page now, so there is one route plus the case
+  // studies. Sections are anchors, and anchors are not separate URLs.
+  const routes = [""];
   const now = new Date();
 
   return [

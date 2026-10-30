@@ -110,7 +110,7 @@ export const projects: Project[] = [
           ],
         },
         {
-          heading: "Where it stands, and what is next",
+          heading: "Where it stands",
           body: [
             "In build. The concurrency core is the milestone that matters and everything else on the list exists to support it: Dockerfile, CI running the tests on every push, and OpenAPI docs.",
             "Not in this version: authentication, Redis-backed holds, payments. Each is real work, and each would have pulled attention off the thing I was trying to get right.",

@@ -55,38 +55,52 @@ No test suite yet.
 
 ## Site content plan
 
-Pages, in nav order: Home, Projects, Experience, About, Contact. Writing
-(`/writing`) is a reserved route, no content yet.
+One page. `app/page.tsx` is the site: hero, then sections with ids for
+Projects (`#projects`), Stack (`#stack`), Daily tools, Experience
+(`#experience`), About (`#about`) and Contact (`#contact`). The nav links to
+those anchors and a scroll spy in `components/Nav.tsx` moves the pill. There
+are no `/projects`, `/experience`, `/about` or `/contact` routes any more.
+They were four thin pages holding three projects, one job and two degrees.
+Do not recreate them.
 
-- Home: one-line positioning, current status (MSc Advanced Computer
-  Science, Liverpool, open to graduate roles). The positioning is two
-  real languages, not one plus a fallback: Java and Spring Boot for
-  services that must stay correct, Python for data and geospatial
-  work. Never write Python as optional, a tool, or "where it fits".
-  Geospatial and GIS skills (GeoPandas, Shapely, Leaflet, raster data,
-  the MSc geovisualisation and geographic data science modules) are
-  named and credited as real skills. What still does not happen is
-  leading with it: "geospatial specialist" is not the headline, not
-  the hero line, and not what the site is about. Backend engineer who
-  can handle spatial data, in that order. No visa or
-  sponsorship detail here, that stays off the public site. Three
-  flagship project cards, a short skills strip, CTAs to
-  Projects/CV/Contact.
-- Projects: two tiers. A case study is earned by having had real
-  decisions to argue through, not by the project being good. That means
-  CineBook and TrainRadar only. Device Depot is a card with a live link
-  and nothing more: it was built to get a stack working end to end, not
-  to settle a hard question, and a write-up concluding that would
-  undercut itself. TrainRadar's page gets built once its embargo lifts,
-  see below.
-  Everything else is a card on the index page only: screenshot,
-  2-3 line summary, stack tags, links. No subpage.
-- Experience: NETPARAM/Dealkarts internship, education, certifications,
-  skills matrix, CV download button.
-- About: short personal background, current status, one or two
-  humanising details. Keep it short.
-- Contact: email, LinkedIn, GitHub, location. One screen, no form unless
-  asked for one.
+Still real routes: `/projects/[slug]` for the case studies, because they are
+long enough that inlining them would bury everything else, and `/writing`,
+reserved and not in the nav.
+
+- Hero: name as the h1, the positioning claim below it. The positioning is
+  two real languages, not one plus a fallback: Java and Spring Boot for
+  services that must stay correct, Python for data and geospatial work.
+  Never write Python as optional, a tool, or "where it fits". Geospatial
+  and GIS skills (GeoPandas, Shapely, Leaflet, raster data, the MSc
+  geovisualisation and geographic data science modules) are named and
+  credited as real skills. What still does not happen is leading with it:
+  "geospatial specialist" is not the headline, not the hero line, and not
+  what the site is about. Backend engineer who can handle spatial data, in
+  that order. No visa or sponsorship detail anywhere on the public site.
+- `#projects`: every project as a card. Two tiers still apply, see below.
+- `#stack`: the six skill groups from `lib/site.ts`, labelled by what each
+  thing is: language, framework, database, and so on. Nothing goes in that
+  does not exist yet.
+- `#experience`: the NETPARAM/Dealkarts internship, then education, then
+  certifications. CV download lives in the hero and in `#contact`.
+- `#about`: short background, the portrait (set `site.photo` to a file in
+  `public/`, the section renders it only when that is non-null), and the
+  Now/Based in/Looking for/Languages card. Keep it short.
+- `#contact`: the email address itself as the primary button, the copy
+  button, CV download, then GitHub and LinkedIn with their handles.
+
+### Headings
+
+Section titles are plain labels or plain statements. The italic serif accent
+word appears exactly twice on the home page: the hero and the contact
+heading. One in every heading is what made the site read as written to a
+formula. Do not add a third, and do not reach for the "X, and Y" or
+"not X, but Y" shapes that the copy was stripped of.
+
+### Temporary
+
+`components/PaletteLab.tsx` and its line in `app/layout.tsx` are a palette
+comparison tool, not a feature. Delete both once the palette is settled.
 
 ## Projects to feature
 
@@ -127,10 +141,11 @@ pattern and pull it back later if it doesn't earn its place. Prefer the
 beyond a CSS transition.
 
 As built: paper/ink neutrals with a single warm accent, Geist Sans and Mono
-with Instrument Serif italic for one accent word per heading. Movement is
-scroll reveals, a hero word stagger, a magnetic pull on buttons, a cursor
-spotlight on cards, a CSS-only marquee and a scroll progress hairline.
-Nothing loops or demands attention while you are reading.
+with Instrument Serif italic. The italic is rationed: twice on the home
+page, not once per heading. Movement is scroll reveals, a hero word stagger,
+a magnetic pull on buttons, a cursor spotlight on cards and a scroll
+progress hairline. Nothing loops or demands attention while you are reading.
+The scrolling technology ribbon was removed on purpose. Do not bring it back.
 
 ## Learning mode
 
