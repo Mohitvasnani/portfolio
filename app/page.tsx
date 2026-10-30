@@ -1,19 +1,15 @@
 import Link from "next/link";
 import AnimatedHeading from "@/components/AnimatedHeading";
+import Avatar from "@/components/Avatar";
+import CopyEmail from "@/components/CopyEmail";
 import Magnetic from "@/components/Magnetic";
-import Marquee from "@/components/Marquee";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
-import Spotlight from "@/components/Spotlight";
 import { featuredProjects } from "@/lib/projects";
-import { experience, facts, site, skills, socials, tools } from "@/lib/site";
+import { education, experience, facts, site, skills, socials, tools } from "@/lib/site";
 
 export default function Home() {
-  // The most recent role. `[0]` is safe here because the array is never empty,
-  // but the `?.` keeps TypeScript happy if a future edit empties it.
-  const latestRole = experience[0];
-
   return (
     <main>
       {/* ---------------------------------------------------------------- */}
@@ -25,6 +21,12 @@ export default function Home() {
         <div aria-hidden className="grid-veil absolute inset-0 -z-10 opacity-60" />
 
         <div className="shell pt-20 pb-16 sm:pt-28 sm:pb-24">
+          {/* Two columns on desktop so the portrait fills the empty right
+              side. `minmax(0,1fr)` rather than `1fr` stops the long heading
+              from forcing the column wider than the grid. On mobile it is a
+              single column and the portrait leads. */}
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+          <div>
           <Reveal distance={10}>
             <p className="inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted uppercase">
               <span className="relative grid size-1.5 place-items-center">
@@ -93,6 +95,15 @@ export default function Home() {
               ))}
             </ul>
           </Reveal>
+          </div>
+
+          <Reveal
+            delay={0.2}
+            className="order-first w-40 justify-self-start sm:w-56 lg:order-last lg:w-72 lg:justify-self-end"
+          >
+            <Avatar />
+          </Reveal>
+          </div>
         </div>
 
         {/* Facts strip. The reference site puts invented metrics here;
@@ -109,14 +120,10 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="mt-20">
-        <Marquee />
-      </div>
-
       {/* ---------------------------------------------------------------- */}
       {/* Selected work                                                    */}
       {/* ---------------------------------------------------------------- */}
-      <section className="shell mt-24">
+      <section className="shell mt-28">
         <Reveal>
           <SectionHeading
             eyebrow="Selected work"
@@ -142,7 +149,7 @@ export default function Home() {
       {/* ---------------------------------------------------------------- */}
       <section className="shell mt-28">
         <Reveal>
-          <SectionHeading eyebrow="What I work with" title="The stack, honestly labelled" />
+          <SectionHeading eyebrow="Stack" title="What I work with" />
         </Reveal>
         <div className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           {skills.map((group, i) => (
@@ -166,36 +173,80 @@ export default function Home() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Experience preview                                               */}
+      {/* Experience and education                                         */}
       {/* ---------------------------------------------------------------- */}
-      {latestRole && (
-        <section className="shell mt-28">
-          <Reveal>
-            <SectionHeading
-              eyebrow="Experience"
-              action={{ href: "/experience", label: "Full history" }}
-            />
-          </Reveal>
-          <Reveal delay={0.08}>
-            <Spotlight className="mt-10">
-              <article className="rounded-card border border-border bg-surface/60 p-7 transition-colors hover:border-accent/35 sm:p-9">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-                  <h3 className="display text-2xl sm:text-3xl">{latestRole.title}</h3>
+      {/* Same date-in-the-margin layout as /experience, so the two pages
+          read as one document. /experience still owns the certifications
+          and the full skills matrix, which is what "Full history" goes to. */}
+      <section className="shell mt-28">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Experience"
+            title="Where I have worked and studied"
+            action={{ href: "/experience", label: "Full history" }}
+          />
+        </Reveal>
+
+        <div className="mt-10 flex flex-col gap-12">
+          {experience.map((role, i) => (
+            <Reveal as="article" key={role.company} delay={i * 0.08}>
+              <div className="grid gap-6 md:grid-cols-[11rem_1fr] md:gap-10">
+                <div>
                   <p className="font-mono text-xs tracking-[0.12em] text-muted uppercase">
-                    {latestRole.period}
+                    {role.period}
                   </p>
+                  <p className="mt-1.5 font-mono text-[11px] text-muted">{role.location}</p>
                 </div>
-                <p className="mt-2 text-sm text-accent">
-                  {latestRole.company} &middot; {latestRole.location}
-                </p>
-                <p className="mt-5 max-w-2xl leading-relaxed text-muted">
-                  {latestRole.summary}
-                </p>
-              </article>
-            </Spotlight>
-          </Reveal>
-        </section>
-      )}
+                <div>
+                  <h3 className="display text-2xl sm:text-3xl">{role.title}</h3>
+                  <p className="mt-2 text-sm text-accent">{role.company}</p>
+                  <p className="mt-5 max-w-2xl leading-relaxed text-muted">{role.summary}</p>
+                  <ul className="mt-5 flex max-w-2xl flex-col gap-2.5">
+                    {role.points.map((point) => (
+                      <li key={point} className="flex gap-3 text-sm leading-relaxed text-muted">
+                        <span
+                          className="mt-[0.55rem] size-1 shrink-0 rounded-full bg-accent"
+                          aria-hidden
+                        />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="mt-16">
+          <div className="border-b border-border pb-4">
+            <p className="eyebrow">Education</p>
+          </div>
+        </Reveal>
+        <div className="mt-10 flex flex-col gap-10">
+          {education.map((item, i) => (
+            <Reveal as="article" key={item.institution} delay={i * 0.08}>
+              <div className="grid gap-6 md:grid-cols-[11rem_1fr] md:gap-10">
+                <div>
+                  <p className="font-mono text-xs tracking-[0.12em] text-muted uppercase">
+                    {item.period}
+                  </p>
+                  <p className="mt-1.5 font-mono text-[11px] text-muted">{item.location}</p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-medium tracking-tight">{item.qualification}</h3>
+                  <p className="mt-1.5 text-sm text-accent">{item.institution}</p>
+                  {item.detail && (
+                    <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
+                      {item.detail}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       {/* ---------------------------------------------------------------- */}
       {/* Tools                                                            */}
@@ -224,35 +275,76 @@ export default function Home() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Closing call to action                                           */}
+      {/* Contact                                                          */}
       {/* ---------------------------------------------------------------- */}
       <section className="shell mt-28">
         <Reveal>
-          <div className="relative overflow-hidden rounded-card border border-border px-7 py-14 text-center sm:px-12 sm:py-20">
+          <div className="relative overflow-hidden rounded-card border border-border px-7 py-14 sm:px-12 sm:py-16">
             <div aria-hidden className="grid-veil absolute inset-0 -z-10 opacity-50" />
-            <p className="eyebrow">Next step</p>
-            <h2 className="display mx-auto mt-5 max-w-2xl text-3xl sm:text-5xl">
-              Looking for a graduate engineer who <span className="serif text-accent">reads the code</span> before changing it?
-            </h2>
-            <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <Magnetic>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-accent hover:text-accent-contrast"
-                >
-                  Get in touch
-                  <span aria-hidden>&rarr;</span>
-                </Link>
-              </Magnetic>
-              <Magnetic>
-                <a
-                  href={site.cv} target="_blank" rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:border-accent/50"
-                >
-                  Download CV
-                </a>
-              </Magnetic>
+
+            <div className="text-center">
+              <p className="eyebrow">Contact</p>
+              <h2 className="display mx-auto mt-5 max-w-2xl text-3xl sm:text-5xl">
+                I am looking for a UK graduate backend role, <span className="serif text-accent">starting September 2026</span>.
+              </h2>
+
+              {/* The address itself is the primary button rather than a "get
+                  in touch" link, so it can be read, clicked or copied without
+                  loading another page. */}
+              <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+                <Magnetic>
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-accent hover:text-accent-contrast"
+                  >
+                    {site.email}
+                  </a>
+                </Magnetic>
+                <CopyEmail email={site.email} />
+                <Magnetic>
+                  <a
+                    href={site.cv} target="_blank" rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors hover:border-accent/50"
+                  >
+                    Download CV
+                  </a>
+                </Magnetic>
+              </div>
             </div>
+
+            {/* `.filter` drops the email row. The address is the button
+                above, so a second copy of it here would just be noise. */}
+            <ul className="mx-auto mt-12 flex max-w-xl flex-col divide-y divide-border border-t border-border">
+              {socials
+                .filter((s) => s.label !== "Email")
+                .map((s) => (
+                  <li key={s.label}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group flex items-baseline justify-between gap-6 py-4 transition-colors hover:text-accent"
+                    >
+                      <span className="font-mono text-xs tracking-[0.14em] uppercase">
+                        {s.label}
+                      </span>
+                      <span className="flex items-center gap-3 text-sm text-muted transition-colors group-hover:text-accent">
+                        {s.handle}
+                        <span
+                          className="inline-block transition-transform group-hover:translate-x-1"
+                          aria-hidden
+                        >
+                          &rarr;
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+            </ul>
+
+            <p className="mt-8 text-center font-mono text-[11px] text-muted">
+              Based in {site.location}. Usually replying within a day.
+            </p>
           </div>
         </Reveal>
       </section>

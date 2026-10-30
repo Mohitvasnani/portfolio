@@ -31,13 +31,16 @@ export const site = {
   positioning:
     "Backend engineer. Java and Spring Boot for services that have to stay correct, Python for data and geospatial work.",
   intro:
-    "MSc Advanced Computer Science at the University of Liverpool. I like the problems where correctness is the hard part, not the feature list: concurrency, state that must not corrupt, systems that stay honest under load.",
+    "MSc Advanced Computer Science at the University of Liverpool. The work I like best is the kind where getting it right is the difficult part. Concurrency, mostly, and state that cannot be allowed to corrupt.",
   location: "Liverpool, United Kingdom",
   availability: "Open to graduate software engineering roles, UK, from September 2026",
   email: "mohitvasnani47@gmail.com",
   // Must match the filename in public/ exactly. This is also the name it
   // lands under in a recruiter's downloads folder, so it is spelled out.
   cv: "/Mohit-Vasnani-CV.pdf",
+  // Path to the portrait in public/, or null for the monogram fallback.
+  // Set this the moment the file is in place; nothing else needs changing.
+  photo: null as string | null,
   url: resolveSiteUrl(),
 } as const;
 
@@ -78,9 +81,9 @@ export const experience: Role[] = [
     summary:
       "Six months in a five-person agile team on Dealkarts, a live consumer marketplace selling electronics, fashion and handicrafts across India. It is still trading.",
     points: [
-      "Worked across the stack on a real commercial codebase with real customers and real orders, not a greenfield project where mistakes cost nothing.",
-      "Shipped into multi-category catalogue, search and account flows, to a sprint cadence with code review.",
-      "Learned to read someone else's code before changing it, and that the small, boring, correct change beats the clever one.",
+      "Worked across the stack on a codebase that already had customers and orders in it. Nothing I touched was a blank page.",
+      "Shipped changes into the catalogue, search and account flows, on a sprint cadence with code review.",
+      "The habit I took away was reading the surrounding code before changing it, which I learned the slow way.",
     ],
     stack: ["JavaScript", "React", "Node.js", "REST APIs", "Git"],
   },
@@ -101,7 +104,7 @@ export const education: Education[] = [
     period: "2025 — 2026",
     location: "Liverpool, UK",
     detail:
-      "Modules include Advanced Geovisualisation and Geographic Data Science, which is where the geospatial and data side of my Python work comes from. Dissertation supervised by Dr David Purser; write-up published here after 15 November 2026.",
+      "Modules include Advanced Geovisualisation and Geographic Data Science, which is where the geospatial and data side of my Python work comes from. Dissertation supervised by Dr David Purser. The write-up goes up here after 15 November 2026.",
   },
   {
     institution: "JECRC University",
@@ -119,51 +122,35 @@ export const certifications = [
 
 export type SkillGroup = { group: string; items: string[] };
 
+// Grouped by what each thing actually is, so a reader can tell a language
+// from a framework from a database. Nothing goes in here that does not exist
+// yet: Redis and Kubernetes come back when there is work behind them.
 export const skills: SkillGroup[] = [
   {
-    group: "Backend",
-    items: ["Java 21", "Spring Boot", "REST APIs", "JPA / Hibernate", "Flyway", "JUnit 5"],
+    group: "Languages",
+    items: ["Java 21", "Python", "TypeScript", "JavaScript", "SQL"],
   },
   {
-    group: "Data",
-    items: ["PostgreSQL", "SQL", "MongoDB", "Redis"],
+    group: "Backend frameworks",
+    items: ["Spring Boot", "JPA / Hibernate", "Flask", "Node.js", "Express"],
   },
   {
     group: "Frontend",
-    items: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+    items: ["React", "Next.js", "Tailwind CSS"],
   },
   {
-    group: "Platform",
-    items: ["Docker", "GitHub Actions", "Kubernetes", "Vercel"],
+    group: "Databases and migrations",
+    items: ["PostgreSQL", "MongoDB", "Flyway"],
   },
   {
-    group: "Python",
-    items: ["Python", "Flask", "Pandas", "NumPy", "Jupyter"],
+    group: "Testing and CI",
+    items: ["JUnit 5", "Testcontainers", "Docker", "GitHub Actions"],
   },
   {
-    group: "Geospatial",
-    items: ["GeoPandas", "Shapely", "Leaflet", "Raster data", "Shapefiles"],
+    group: "Data and geospatial",
+    items: ["Pandas", "NumPy", "GeoPandas", "Shapely", "Leaflet", "Raster data", "Jupyter"],
   },
 ];
-
-/** The marquee strip. Short labels only, it scrolls past quickly. */
-export const marquee = [
-  "Java 21",
-  "Spring Boot",
-  "PostgreSQL",
-  "Docker",
-  "TypeScript",
-  "Next.js",
-  "React",
-  "Redis",
-  "GitHub Actions",
-  "Kubernetes",
-  "Tailwind CSS",
-  "Python",
-  "Pandas",
-  "GeoPandas",
-  "Flask",
-] as const;
 
 export const tools = [
   { name: "IntelliJ IDEA", use: "Java and Spring", href: "https://www.jetbrains.com/idea/" },
