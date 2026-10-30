@@ -59,10 +59,13 @@ export default function Avatar({ className }: { className?: string }) {
       </svg>
 
       {/* Inset so the ring sits clear of the photo rather than on top of it. */}
-      <div className="absolute inset-[5%] overflow-hidden rounded-full border border-border bg-surface">
+      {/* inset-[1.5%] puts the photo's edge on the ring's centreline, so the
+          picture fills the circle instead of floating inside it. No border
+          here: the SVG above already draws two rings at that radius. */}
+      <div className="absolute inset-[1.5%] overflow-hidden rounded-full bg-surface">
         {site.photo ? (
           <Image
-            src={"dp.jpg"}
+            src={site.photo}
             alt={site.name}
             fill
             // Tells the browser the rendered size so it can pick the right

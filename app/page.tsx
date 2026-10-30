@@ -1,4 +1,3 @@
-import Image from "next/image";
 import AnimatedHeading from "@/components/AnimatedHeading";
 import Avatar from "@/components/Avatar";
 import CopyEmail from "@/components/CopyEmail";
@@ -320,22 +319,7 @@ export default function Home() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.12} className="flex flex-col gap-6">
-            {/* Renders only once `site.photo` points at a file in public/.
-                Until then the column is just the facts card and the layout
-                is still correct. */}
-            {site.photo && (
-              <div className="relative aspect-[4/5] overflow-hidden rounded-card border border-border bg-surface">
-                <Image
-                  src={site.photo}
-                  alt={site.name}
-                  fill
-                  sizes="(min-width: 768px) 18rem, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            )}
-
+          <Reveal delay={0.12}>
             <div className="flex flex-col gap-8 rounded-card border border-border bg-surface/60 p-6">
               <div>
                 <p className="eyebrow">Now</p>
