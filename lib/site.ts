@@ -104,7 +104,7 @@ export const education: Education[] = [
     period: "2025 — 2026",
     location: "Liverpool, UK",
     detail:
-      "Modules include Advanced Geovisualisation and Geographic Data Science, which is where the geospatial and data side of my Python work comes from. Dissertation supervised by Dr David Purser. The write-up goes up here after 15 November 2026.",
+      "Modules include Advanced Geovisualisation and Geographic Data Science, which is where the geospatial and data side of my Python work comes from. Dissertation supervised by Dr David Purser, and written up here as a case study.",
   },
   {
     institution: "JECRC University",

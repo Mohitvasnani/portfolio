@@ -9,8 +9,8 @@
 export type ProjectStatus =
   | "live"
   | "in progress"
-  | "archived"
-  | "public 15 Nov";
+  | "complete"
+  | "archived";
 
 /** "case-study" projects get their own subpage. "card" projects don't. */
 export type ProjectTier = "case-study" | "card";
@@ -140,18 +140,96 @@ export const projects: Project[] = [
   {
     slug: "trainradar",
     name: "TrainRadar",
-    tagline: "MSc dissertation project",
+    tagline: "Live positions for trains that do not report them",
     summary:
-      "My MSc dissertation, submitted September 2026 at the University of Liverpool. Finished and marked. The write-up is under an academic embargo until mid-November.",
-    stack: [],
-    // On 15 Nov 2026: change `tier` to "case-study", add the stack back, add
-    // the repo link, and add a `caseStudy` block. The page generates itself.
-    tier: "card",
-    status: "public 15 Nov",
+      "A live map of GB trains, which broadcast nothing. The system interpolates between timing reports and places each service along the real curved track from OpenStreetMap. Median error 644 m across 1,205 measured positions.",
+    stack: [
+      "Python",
+      "Flask",
+      "React",
+      "Leaflet",
+      "OSMnx",
+      "NetworkX",
+      "Shapely",
+      "pytest",
+    ],
+    tier: "case-study",
+    status: "complete",
     featured: true,
     order: 3,
     year: "2026",
-    note: "Full write-up and code go up on 15 November 2026.",
+    // TODO: fill these in when the repo is public and the app is deployed,
+    // then delete the `note` below.
+    // links: {
+    //   demo: "https://trainradar.example.com",
+    //   repo: "https://github.com/mohitvasnani/trainradar",
+    // },
+    note: "Repo and live demo going up shortly.",
+    caseStudy: {
+      premise:
+        "Aircraft broadcast where they are. British trains do not. A train is recorded only when it passes a reporting point, so anything that draws one on a map has to work out the position in between, and then be honest about how wrong it is.",
+      meta: [
+        { label: "Type", value: "MSc dissertation" },
+        { label: "Role", value: "Solo" },
+        { label: "Year", value: "2026" },
+        { label: "Status", value: "Submitted and marked" },
+      ],
+      sections: [
+        {
+          heading: "Why this problem",
+          body: [
+            "Flightradar24 is not doing anything clever. Aircraft transmit their own position several times a second over ADS-B, and the site draws what it is handed. Nothing equivalent exists on the GB rail network. A train is logged when it passes a reporting point, a signal box or a station, and between those points nobody knows where it is.",
+            "So a train map cannot display a position. It has to estimate one.",
+            "The academic name for this is map matching, and this is the awkward version of it. Most of the literature assumes a GPS fix every second or two, so the vehicle barely moves between readings. Realtime Trains reports can be minutes and several kilometres apart.",
+          ],
+        },
+        {
+          heading: "Getting the track right",
+          body: [
+            "Geometry comes from OpenStreetMap through OSMnx, and the first version was broken in a way that took a while to see.",
+            "OSMnx simplifies a graph as it loads, merging runs of degree-two nodes into single edges. For road routing that is the sensible default. For railways it destroys the thing you need, because those intermediate vertices are what hold a curve together. With simplification on, the Liverpool to Manchester corridor came apart into 61 disconnected components and only 4 of its 14 legs could be routed at all.",
+            "Turning it off took the graph from 5,587 nodes to 76,303 and made 12 of the 14 legs routable. Thirteen times the data in exchange for the real shape of the track, which is the whole point of the project.",
+            "The second problem only showed up once real data met the code. The OSM extract includes Manchester Metrolink, and trams share corridors with trains, so routes were picking up tram track and inventing loops no train would take. A filter at graph-build time keeps heavy rail and drops trams, light rail, subway, monorail and funicular. The phantom loops went with them.",
+          ],
+        },
+        {
+          heading: "Deciding when not to draw a train",
+          body: [
+            "Three checks decide whether a leg is trustworthy enough to put a train on.",
+            "Stations arrive as a single latitude and longitude, and that point almost never sits on the track graph. Usually it is on the platform or the station building. So it gets snapped to the nearest graph node, and the snap is trusted only within 300 metres. That threshold came from real cases rather than instinct: Ryder Brow snaps at 13 metres and is kept, Brinnington was snapping to a node 1,276 metres away and gets rejected rather than starting a train on the wrong piece of railway.",
+            "Once a route exists, its length along the track is divided by the straight-line distance between its endpoints. Legs that were obviously right came out between 0.98 and 1.20. Legs that had doubled back or wandered through a siding came out at 1.74, 3.3 and 5.6. There is clear air between those two groups, so the threshold sits at 1.5.",
+            "The third way a leg fails is that no path exists at all. One leg near Ryder Brow would not route, and after checking the snap and then the direction, the answer turned out to be a genuine gap in the OpenStreetMap rail network. The choice was to bridge it with a straight line or leave it undrawn. A straight line there would have run through parks and houses. It is not drawn. A train shown on a route it did not take is worse than a train not shown, and that principle runs through the evaluation too.",
+          ],
+        },
+        {
+          heading: "Measuring the error instead of asserting it",
+          body: [
+            "There is no ground truth. GB trains do not publish their positions, which is the reason the project exists and also the reason it cannot be checked directly.",
+            "What it can be checked against is itself, afterwards. Every timing point carries a booked time and, once the train has passed, an actual one. So the estimator runs twice over identical geometry: once on the schedule, as the live system does, and once on the actual times, which only exist later. The distance between the two positions is the error. Geometry and interpolation are the same in both runs, so what is isolated is the timing data.",
+            "That measures consistency, not absolute accuracy. It is worth saying plainly rather than dressing up: if a train runs exactly to schedule, both runs get the same input and the error is zero by construction.",
+            "Four sessions on separate days, 1,205 observations once duplicates were removed, covering 241 legs across 128 stations. Median error 644 metres, with 82.7% inside two kilometres. Two kilometres is roughly suburban station spacing, so an estimate inside it usually places the train between the correct pair of stations. The mean is 1,443 metres and the distribution is strongly right-skewed, which is why the median is the headline figure.",
+            "Lateness drives the error, not leg length. Spearman correlation of 0.65 against how far the departure deviated from the booked time, against 0.38 for scheduled duration, and the two are nearly independent of each other at 0.13. Trains leaving on time had a median error of 236 metres. Trains more than five minutes late had 2,772. The worst single case was Stoke-on-Trent to Stockport at 37.7 km: a 25-minute leg on a train that left 26 minutes late, so the schedule put it near Stockport while the actual times put it north of Stoke.",
+          ],
+        },
+        {
+          heading: "The ceiling",
+          body: [
+            "Polling is the limit, and that was measured rather than assumed. Sustained polling returns 429s, escalating until the board call itself fails. No amount of caching fixes that for a national network.",
+            "What is there holds the load down. The refresh token is exchanged once and reused until a minute before expiry. Station boards cache for 120 seconds, services for 300, and built routes for the whole session, since track geometry does not change while the process is up. A pre-filter drops services that cannot be running before any of them are requested, taking a busy board from 64 candidates down to 34.",
+            "The real answer is to stop polling. Network Rail's feeds push movements between signalling berths rather than at calling points, which shortens the reporting interval and addresses both error sources at once. The cost is architectural: a long-running consumer, persistent train state instead of cached polling, and a mapping from berth identifiers to positions on the network. The linear referencing core carries over unchanged.",
+          ],
+        },
+        {
+          heading: "What it does not do",
+          body: [
+            "It can reject an implausible path through a junction but cannot choose between two plausible ones.",
+            "It does not communicate uncertainty, which is the cheapest improvement available and the one I would do first. The quantities already exist: time since the last report, length of the current leg and lateness of the service are all known, and all three were measured against error.",
+            "Five people worked through six tasks and filled in a System Usability Scale questionnaire. The mean was 85.5, which is a number I would not lean on. All five were recruited by me and all knew the system was mine. The useful results were the failures. Three expected a station departure board and got a text filter instead. Three managed to pin a service and then could not say what pinning was for.",
+            "34 pytest tests cover the estimation, geometry and parsing layers. Nothing below the HTTP layer imports Flask, so they call the functions directly with ordinary Python values, with no server and no mocking. One of them builds a right-angled track and asserts that the halfway position is the corner rather than the midpoint of the straight line between the ends. Without it, a change to the interpolation call could silently reintroduce straight-line behaviour while every other test still passed.",
+          ],
+        },
+      ],
+    },
   },
 ];
 

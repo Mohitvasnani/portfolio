@@ -9,10 +9,9 @@ import type { Project } from "@/lib/projects";
 const statusStyles: Record<Project["status"], string> = {
   live: "border-accent bg-accent text-accent-contrast",
   "in progress": "border-accent/40 text-accent",
+  // Finished work, not abandoned work, so it keeps the accent.
+  complete: "border-accent/40 text-accent",
   archived: "border-border/40 text-muted",
-  // Not greyed out. A release date reads as a commitment; "private" or
-  // "embargoed" read as something being withheld.
-  "public 15 Nov": "border-accent/40 text-accent",
 };
 
 export default function ProjectCard({ project }: { project: Project }) {

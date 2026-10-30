@@ -116,16 +116,15 @@ comparison tool, not a feature. Delete both once the palette is settled.
   Render's free tier and cold-starts, so the first visit after an idle
   period sits on empty skeletons for up to a minute.
 - TrainRadar: real-time GB train position map. MSc dissertation,
-  submitted Sept 2026. Under a supervisor embargo and cannot be posted
-  publicly anywhere before 15 November 2026. Until then it is a
-  card-only entry with no technical detail, no screenshots and no repo
-  link. Build its case-study subpage after 15 Nov, not before: flip
-  `tier` to "case-study", restore the stack, add the repo link and write
-  the `caseStudy` block. The route generates itself from that.
-  Its status tag is "embargoed", never "private", and it is styled in
-  the accent colour rather than greyed out: the work is finished and
-  marked, it just cannot be published yet. "Private" reads to a
-  recruiter as something being hidden.
+  submitted Sept 2026, marked, and cleared by the supervisor for
+  publication. The embargo that previously applied is lifted. Full
+  case study at /projects/trainradar, written from the dissertation.
+  Its status is "complete", styled in the accent colour rather than
+  greyed out, because it is finished work and not abandoned work.
+  Outstanding: the repo and demo links are commented out in
+  `lib/projects.ts` with a TODO, and a `note` stands in for them until
+  they exist. Delete the note when the links go in. A map screenshot is
+  wanted too, but the site has no image support yet.
 - Anything else (MapLibre OSS work, etc.) is a card only, added once it
   actually exists. UK Crime Heatmap was dropped and was never built.
   Don't include it anywhere.
