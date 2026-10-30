@@ -154,7 +154,7 @@ export const projects: Project[] = [
       "pytest",
     ],
     tier: "case-study",
-    status: "complete",
+    status: "live",
     featured: true,
     order: 3,
     year: "2026",
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     demo: "https://trainradar-uk.vercel.app/",
     repo: "https://github.com/mohitvasnani/trainradar",
     },
-    note: "Repo and live demo going up shortly.",
+   
     caseStudy: {
       premise:
         "Aircraft broadcast where they are. British trains do not. A train is recorded only when it passes a reporting point, so anything that draws one on a map has to work out the position in between, and then be honest about how wrong it is.",
