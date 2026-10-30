@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import PaletteLab from "@/components/PaletteLab";
 import ScrollProgress from "@/components/ScrollProgress";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -84,6 +85,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </div>
         <Footer />
+        {/* TEMPORARY palette comparison tool. Delete this line and
+            components/PaletteLab.tsx once the palette is settled. */}
+        <PaletteLab />
       </body>
     </html>
   );
