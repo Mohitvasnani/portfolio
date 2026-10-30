@@ -5,8 +5,108 @@
    instead of the OS setting, which is what lets the theme toggle work. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Light theme ("paper"). Every colour on the site is one of these tokens,
-   so a palette change happens here and nowhere else. */
+/* Layout tokens. Palette-independent, so swapping a palette below can
+   never take the radius and nav height with it. */
+:root {
+  --radius: 1rem;
+  --nav-h: 4.25rem;
+}
+
+/* ====================================================================
+   PALETTE. Four sets, exactly one uncommented at a time. To try
+   another, comment out the active pair and uncomment the one you want.
+
+   Ratios in the comments are measured WCAG contrast against that set's
+   own --background. --muted is the one to watch: it carries most of the
+   body copy on this site, and it is the token that breaks first on a
+   warm ground.
+   ==================================================================== */
+
+/* -------- HENNA (active) --------------------------------------------
+   Cream page, brown ink, Sindoor red as the accent. Turmeric marigold
+   takes the accent slot in dark mode, where it has the contrast to
+   work. The only one of the four with a real dark counterpart: a
+   saturated background does not invert, it just stays itself. */
+:root {
+  --background: #E9DCC8;
+  --surface: #F2E9D9;
+  --foreground: #5C2E16;      /* 8.36 */
+  --muted: #8A5433;           /* 4.57, body copy */
+  --border: #D0B795;          /* 1.43, grid lines and card edges */
+  --accent: #9E1B1B;          /* 5.92 */
+  --accent-contrast: #F6E9D8;
+}
+
+.dark {
+  --background: #2A1A12;
+  --surface: #3A2517;
+  --foreground: #F6E9D8;      /* 14.00 */
+  --muted: #BFA384;           /* 7.00 */
+  --border: #543A26;          /* 1.60 */
+  --accent: #F0B429;          /* 8.98 */
+  --accent-contrast: #2A1A12;
+}
+
+/* -------- TURMERIC --------------------------------------------------
+   Marigold page. Contrast is excellent everywhere, which is not the
+   problem: the problem is reading four paragraphs of a case study on
+   it, and project screenshots carrying their own white chrome onto it.
+   No dark variant exists, so the toggle does nothing here.
+   Ratios on its background: foreground 8.98, muted 7.29, accent 4.98,
+   border 1.55. */
+/*
+:root {
+  --background: #F0B429;
+  --surface: #EFC55C;
+  --foreground: #2A1A12;
+  --muted: #3D2A1B;
+  --border: #C68E1E;
+  --accent: #8E1414;
+  --accent-contrast: #F6E9D8;
+}
+.dark {
+  --background: #F0B429;
+  --surface: #EFC55C;
+  --foreground: #2A1A12;
+  --muted: #3D2A1B;
+  --border: #C68E1E;
+  --accent: #8E1414;
+  --accent-contrast: #F6E9D8;
+}
+*/
+
+/* -------- SINDOOR ---------------------------------------------------
+   Deep red page, cream ink. Same two problems as Turmeric plus one
+   more: the marigold accent lands at 4.29 on this background, just
+   under AA, and it is used at 11px for uppercase labels, which is
+   exactly where borderline is worst. No dark variant either.
+   Ratios on its background: foreground 6.69, muted 5.62, accent 4.29,
+   border 1.75. */
+/*
+:root {
+  --background: #9E1B1B;
+  --surface: #AE2020;
+  --foreground: #F6E9D8;
+  --muted: #EAD5BF;
+  --border: #C25151;
+  --accent: #F0B429;
+  --accent-contrast: #2A1A12;
+}
+.dark {
+  --background: #9E1B1B;
+  --surface: #AE2020;
+  --foreground: #F6E9D8;
+  --muted: #EAD5BF;
+  --border: #C25151;
+  --accent: #F0B429;
+  --accent-contrast: #2A1A12;
+}
+*/
+
+/* -------- PAPER AND INK (the original) ------------------------------
+   Here so you can flip straight back and compare rather than reaching
+   for git. Delete the three sets you do not keep. */
+/*
 :root {
   --background: #faf9f7;
   --surface: #ffffff;
@@ -15,12 +115,7 @@
   --border: #e3e0da;
   --accent: #d9541f;
   --accent-contrast: #ffffff;
-
-  --radius: 1rem;
-  --nav-h: 4.25rem;
 }
-
-/* Dark theme ("ink"). */
 .dark {
   --background: #0c0c0d;
   --surface: #151517;
@@ -30,6 +125,27 @@
   --accent: #ff6b35;
   --accent-contrast: #15100d;
 }
+*/
+/*
+:root {
+  --background: #faf9f7;
+  --surface: #ffffff;
+  --foreground: #141414;
+  --muted: #6b6761;
+  --border: #e3e0da;
+  --accent: #d9541f;
+  --accent-contrast: #ffffff;
+}
+.dark {
+  --background: #0c0c0d;
+  --surface: #151517;
+  --foreground: #ebe9e6;
+  --muted: #8d8984;
+  --border: #26262a;
+  --accent: #ff6b35;
+  --accent-contrast: #15100d;
+}
+*/
 
 @theme inline {
   --color-background: var(--background);
