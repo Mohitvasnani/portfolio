@@ -18,6 +18,10 @@ type Palette = {
   tokens: Record<string, string>;
 };
 
+// The three are your own specs used literally: background, text, bar, with
+// nothing derived and nothing borrowed between sets. Text and bar are the
+// same value in each, so every palette is two colours across seven tokens.
+// Paper and Ink are the site as it was, kept for comparison.
 const PALETTES: Palette[] = [
   {
     id: "henna",
@@ -25,26 +29,12 @@ const PALETTES: Palette[] = [
     dark: false,
     tokens: {
       "--background": "#E9DCC8",
-      "--surface": "#F2E9D9",
-      "--foreground": "#5C2E16",
-      "--muted": "#8A5433",
-      "--border": "#D0B795",
-      "--accent": "#9E1B1B",
-      "--accent-contrast": "#F6E9D8",
-    },
-  },
-  {
-    id: "henna-dark",
-    label: "Henna dark",
-    dark: true,
-    tokens: {
-      "--background": "#2A1A12",
-      "--surface": "#3A2517",
-      "--foreground": "#F6E9D8",
-      "--muted": "#BFA384",
-      "--border": "#543A26",
-      "--accent": "#F0B429",
-      "--accent-contrast": "#2A1A12",
+      "--surface": "#E9DCC8",
+      "--foreground": "#7A3B1D",
+      "--muted": "#7A3B1D",
+      "--border": "#7A3B1D",
+      "--accent": "#7A3B1D",
+      "--accent-contrast": "#E9DCC8",
     },
   },
   {
@@ -53,12 +43,12 @@ const PALETTES: Palette[] = [
     dark: false,
     tokens: {
       "--background": "#F0B429",
-      "--surface": "#EFC55C",
+      "--surface": "#F0B429",
       "--foreground": "#2A1A12",
-      "--muted": "#3D2A1B",
-      "--border": "#C68E1E",
-      "--accent": "#8E1414",
-      "--accent-contrast": "#F6E9D8",
+      "--muted": "#2A1A12",
+      "--border": "#2A1A12",
+      "--accent": "#2A1A12",
+      "--accent-contrast": "#F0B429",
     },
   },
   {
@@ -67,12 +57,12 @@ const PALETTES: Palette[] = [
     dark: false,
     tokens: {
       "--background": "#9E1B1B",
-      "--surface": "#AE2020",
+      "--surface": "#9E1B1B",
       "--foreground": "#F6E9D8",
-      "--muted": "#EAD5BF",
-      "--border": "#C25151",
-      "--accent": "#F0B429",
-      "--accent-contrast": "#2A1A12",
+      "--muted": "#F6E9D8",
+      "--border": "#F6E9D8",
+      "--accent": "#F6E9D8",
+      "--accent-contrast": "#9E1B1B",
     },
   },
   {
