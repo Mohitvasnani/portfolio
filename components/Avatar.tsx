@@ -62,7 +62,7 @@ export default function Avatar({ className }: { className?: string }) {
       <div className="absolute inset-[5%] overflow-hidden rounded-full border border-border bg-surface">
         {site.photo ? (
           <Image
-            src={site.photo}
+            src={"dp.jpg"}
             alt={site.name}
             fill
             // Tells the browser the rendered size so it can pick the right
